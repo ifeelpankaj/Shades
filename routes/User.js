@@ -1,4 +1,5 @@
 import express from "express";
+import { getMyPost, getUserPosts } from "../controllers/Post.js";
 import {
     deleteProfile,
   followUser,
@@ -24,6 +25,10 @@ router.route("/verify").post(isAuthenticated, verify);
 router.route("/login").post(login);
 
 router.route("/logout").get(logout);
+
+router.route("/my/posts").get(isAuthenticated, getMyPost);
+
+router.route("/userposts/:id").get(isAuthenticated, getUserPosts);
 
 router.route("/follow/:id").get(isAuthenticated, followUser);
 

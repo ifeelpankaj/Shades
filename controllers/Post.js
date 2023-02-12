@@ -2,6 +2,7 @@ import { User } from "../models/User.js";
 import { Post } from "../models/Post.js";
 import cloudinary from "cloudinary";
 import fs from "fs";
+import e from "express";
 
 export const createPost = async (req, res) => {
   try {
@@ -122,6 +123,54 @@ export const deletePost = async (req, res) => {
   }
 };
 
+export const getUserPosts = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    const posts = [];
+
+    for (let i = 0; i < user.posts.length; i++) {
+      const post = await Post.findById(user.posts[i]).populate(
+        "likes comments.user owner"
+      );
+      posts.push(post);
+    }
+
+    res.status(200).json({
+      success: true,
+      posts,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+export const getMyPost = async (req, res) => {
+try {
+  const user = await User.findById(req.user._id);
+
+  const posts = [];
+
+  for (let i = 0; i < user.posts.length; i++) {
+    const post = await Post.findById(user.posts[i]).populate(
+      "likes comments.user owner"
+    );
+    posts.push(post);
+  }
+
+  res.status(200).json({
+    success: true,
+    posts,
+  });
+} catch (error) {
+  res.status(500).json({
+    success: false,
+    message: error.message,
+  });
+}
+}
 export const getPostOfFollowing = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
