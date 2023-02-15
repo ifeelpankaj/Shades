@@ -9,7 +9,7 @@ const postSchema = new mongoose.Schema({
 
     keyword: {
       type: String,
-      required: true,
+
     },
 
     image: {
