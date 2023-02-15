@@ -42,6 +42,21 @@ export const createPost = async (req, res) => {
   }
 };
 
+export const getAllPosts = async (req, res) => {
+  try {
+    const posts = await Post.find().populate('owner', 'username');
+
+    res.status(200).json({
+      success: true,
+      data: posts,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 export const likeAndUnlikePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
