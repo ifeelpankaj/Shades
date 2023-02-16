@@ -238,6 +238,46 @@ export const searchPost = async (req, res) => {
     });
   }
 };
+
+export const Postsss = async (req, res) => {
+  try {
+    if (Object.keys(req.query).length === 0) {
+      // If the query object is empty, fetch all posts
+      const allPosts = await Post.find({});
+      res.status(200).json({
+        success: true,
+        posts: allPosts
+      });
+    } else {
+      // If the query object is not empty, search for posts matching the query
+      const query = {};
+      if (req.query.caption && typeof req.query.caption === "string") {
+        query.$or = [
+          { caption: { $regex: req.query.caption, $options: "i" } },
+          { keyword: { $regex: req.query.caption, $options: "i" } }
+        ];
+      }
+      const posts = await Post.find(query);
+      if (posts.length === 0) {
+        res.status(404).json({
+          success: false,
+          message: "No posts found."
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          posts
+        });
+      }
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
 export const updateCaption = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);

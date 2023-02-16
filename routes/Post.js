@@ -7,6 +7,7 @@ import {
   getAllPosts,
   getPostOfFollowing,
   likeAndUnlikePost,
+  Postsss,
   searchPost,
   updateCaption,
 } from "../controllers/Post.js";
@@ -31,7 +32,7 @@ router
   .post(isAuthenticated, commentOnPost)
   .delete(isAuthenticated, deleteComment);
 
-router.route("/posts").get(isAuthenticated, searchPost);
+router.route("/posts").get(isAuthenticated, Postsss);
 
 router.route("/userPost").get(isAuthenticated, getPostOfFollowing);
 
