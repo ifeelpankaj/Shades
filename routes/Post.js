@@ -4,11 +4,9 @@ import {
   createPost,
   deleteComment,
   deletePost,
-  getAllPosts,
   getPostOfFollowing,
   likeAndUnlikePost,
   Postsss,
-  searchPost,
   updateCaption,
 } from "../controllers/Post.js";
 import { myProfile } from "../controllers/User.js";
@@ -17,9 +15,6 @@ import { isAuthenticated } from "../middleware/auth.js";
 const router = express.Router();
 
 router.route("/upload").post(isAuthenticated, createPost);
-
-router.route("/wallpaper").get( isAuthenticated ,getAllPosts);
-
 
 router
   .route("/post/:id")

@@ -42,21 +42,6 @@ export const createPost = async (req, res) => {
   }
 };
 
-export const getAllPosts = async (req, res) => {
-  try {
-    const allposts = await Post.find().populate('owner', 'username');
-
-    res.status(200).json({
-      success: true,
-       allposts,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
 export const likeAndUnlikePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -208,36 +193,6 @@ export const getPostOfFollowing = async (req, res) => {
   }
 };
 
-export const searchPost = async (req, res) => {
-  try {
-    const query = {};
-    if (req.query.caption && typeof req.query.caption === "string") {
-      query.$or = [
-        { caption: { $regex: req.query.caption, $options: "i" } },
-        { keyword: { $regex: req.query.caption, $options: "i" } },
-      ];
-    }
-
-    if (Object.keys(query).length > 0) {
-      const posts = await Post.find(query);
-
-      res.status(200).json({
-        success: true,
-        posts,
-      });
-    } else {
-      res.status(400).json({
-        success: false,
-        message: "Notthing Found",
-      });
-    }
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
 
 export const Postsss = async (req, res) => {
   try {
