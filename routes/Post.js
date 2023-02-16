@@ -17,7 +17,7 @@ const router = express.Router();
 
 router.route("/upload").post(isAuthenticated, createPost);
 
-router.route("/wallpaper").get( getAllPosts);
+router.route("/wallpaper").get( isAuthenticated ,getAllPosts);
 
 
 router
